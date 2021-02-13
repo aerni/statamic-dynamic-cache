@@ -36,7 +36,7 @@ class Config
         return $this;
     }
 
-    public function remove(string $url): self
+    public function remove(?string $url): self
     {
         $this->config = $this->config->diff($url);
 
