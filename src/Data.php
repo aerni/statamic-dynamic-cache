@@ -15,24 +15,54 @@ use Illuminate\Support\Facades\Config;
 
 class Data
 {
-    private $config;
-
-    public function __construct()
+    public function excludeConfig(): array
     {
-        $this->config = collect(Config::get('statamic.static_caching.exclude'));
-    }
-
-    public function urlsToExclude(): array
-    {
-        return Entry::all()->map(function ($entry) {
-            if ($this->shouldExcludeEntryFromStaticCache($entry->data())) {
-                return $entry->url();
-            }
+        return $this->entriesToExcludeFromStaticCache()->map(function ($entry) {
+            return $entry->url();
         })
-        ->merge($this->config)
+        ->merge(Config::get('statamic.static_caching.exclude'))
         ->unique()
         ->filter()
         ->toArray();
+    }
+
+    public function invalidationRules(): array
+    {
+        $rules = $this->entriesToIncludeInInvalidationRules()->map(function ($entry) {
+            return [
+                'collection' => $entry->collectionHandle(),
+                'url' => $entry->url()
+            ];
+        })->groupBy('collection')->map(function ($entry) {
+            $urls = collect($entry)->map(function ($entry) {
+                return $entry['url'];
+            })->all();
+
+            return ['urls' => $urls];
+        })->all();
+
+        return array_merge_recursive(
+            ['collections' => $rules],
+            Config::get('statamic.static_caching.invalidation.rules')
+        );
+    }
+
+    private function entriesToExcludeFromStaticCache(): Collection
+    {
+        return Entry::all()->map(function ($entry) {
+            if ($this->shouldExcludeEntryFromStaticCache($entry->data())) {
+                return $entry;
+            }
+        })->filter();
+    }
+
+    private function entriesToIncludeInInvalidationRules(): Collection
+    {
+        return Entry::all()->map(function ($entry) {
+            if (! $this->shouldExcludeEntryFromStaticCache($entry->data())) {
+                return $entry;
+            }
+        })->filter();
     }
 
     private function shouldExcludeEntryFromStaticCache(Collection $data): bool

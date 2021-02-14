@@ -14,7 +14,8 @@ class ServiceProvider extends AddonServiceProvider
         parent::boot();
 
         Statamic::booted(function () {
-            Config::set('statamic.static_caching.exclude', Data::urlsToExclude());
+            Config::set('statamic.static_caching.exclude', Data::excludeConfig());
+            Config::set('statamic.static_caching.invalidation.rules', Data::invalidationRules());
         });
     }
 }
