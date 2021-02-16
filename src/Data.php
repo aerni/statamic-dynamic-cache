@@ -3,8 +3,10 @@
 namespace Aerni\DynamicCache;
 
 use Aerni\DynamicCache\Contracts\Data as DataContract;
-use Statamic\Entries\Entry;
 use Illuminate\Support\Collection;
+use RecursiveArrayIterator;
+use RecursiveIteratorIterator;
+use Statamic\Entries\Entry;
 
 class Data implements DataContract
 {
@@ -20,20 +22,24 @@ class Data implements DataContract
 
     private function shouldAddEntryUrlToExcludeConfig(Collection $data): bool
     {
-        $excludeFromStaticCache = $data->filter(function ($value, $key) {
-            if (is_array($value)) {
-                $this->shouldAddEntryUrlToExcludeConfig(collect($value));
-            }
+        $excludeFromStaticCache = $this->recursiveSearch($data->toArray(), 'exclude_from_static_cache', true);
 
-            if ($key === 'exclude_from_static_cache' && $value === true) {
-                return true;
-            }
-        });
-
-        if ($excludeFromStaticCache->isEmpty()) {
+        if (! $excludeFromStaticCache) {
             return false;
         }
 
         return true;
+    }
+
+    private function recursiveSearch(array $haystack, $needleKey, $needleValue)
+    {
+        $iterator  = new RecursiveArrayIterator($haystack);
+        $recursive = new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::SELF_FIRST);
+
+        foreach ($recursive as $key => $value) {
+            if ($key === $needleKey && $value === $needleValue) {
+                return $value;
+            }
+        }
     }
 }
