@@ -17,7 +17,8 @@ class Data implements DataContract
                 return $entry->url();
             }
         })
-        ->filter();
+        ->filter()
+        ->sort();
     }
 
     private function shouldAddEntryUrlToExcludeConfig(Collection $data): bool
