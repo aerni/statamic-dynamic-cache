@@ -20,6 +20,6 @@ class Storage implements StorageContract
 
     private static function filepath(): string
     {
-        return storage_path("statamic/addons/dynamic-cache/config_cache.yaml");
+        return storage_path("statamic/addons/dynamic-cache/exclude_cache.yaml");
     }
 }
