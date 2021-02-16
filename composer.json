@@ -28,7 +28,7 @@
     "extra": {
         "statamic": {
             "name": "Dynamic Cache",
-            "description": "Dynamically exclude URLs from the static cache",
+            "description": "Dynamically exclude URLs from the static cache"
         },
         "laravel": {
             "providers": [
