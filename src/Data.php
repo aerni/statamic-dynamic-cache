@@ -2,21 +2,27 @@
 
 namespace Aerni\DynamicCache;
 
+use Aerni\DynamicCache\Contracts\Data as DataContract;
+use Statamic\Entries\Entry;
 use Illuminate\Support\Collection;
 
-class Data
+class Data implements DataContract
 {
-    // TODO: Support multi-sites
-    // TODO: If replicator is deactivated, it should be ignored
-    // TODO: If the blueprint doesn't contain the variable anymore, also delete it from the data
-    // TODO: If you change a slug or move a page, also change the config
-    // TODO: Merge new config with original but respect manual changes that have been made to the original config
+    public function getExcludeConfig(): Collection
+    {
+        return Entry::all()->map(function ($entry) {
+            if ($this->shouldAddEntryUrlToExcludeConfig($entry->data())) {
+                return $entry->url();
+            }
+        })
+        ->filter();
+    }
 
-    public function shouldExcludeEntryFromStaticCache(Collection $data): bool
+    private function shouldAddEntryUrlToExcludeConfig(Collection $data): bool
     {
         $excludeFromStaticCache = $data->filter(function ($value, $key) {
             if (is_array($value)) {
-                $this->shouldExcludeEntryFromStaticCache(collect($value));
+                $this->shouldAddEntryUrlToExcludeConfig(collect($value));
             }
 
             if ($key === 'exclude_from_static_cache' && $value === true) {

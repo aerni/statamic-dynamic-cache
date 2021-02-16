@@ -2,51 +2,35 @@
 
 namespace Aerni\DynamicCache;
 
+use Aerni\DynamicCache\Contracts\Config as ConfigContract;
 use Illuminate\Support\Collection;
 use Stillat\Proteus\Support\Facades\ConfigWriter;
 
-class Config
+class Config implements ConfigContract
 {
     private $config;
 
-    public function __construct()
+    public function get(): Collection
     {
-        $this->config = $this->getOriginalConfig();
+        return $this->config ?? collect(ConfigWriter::getConfigItem('statamic.static_caching.exclude'));
     }
 
-    public function getOriginalConfig(): Collection
+    public function set(Collection $config): self
     {
-        return collect(ConfigWriter::getConfigItem('statamic.static_caching.exclude'));
-    }
-
-    public function getConfigArray(): array
-    {
-        return $this->config->sort()->toArray();
-    }
-
-    public function contains(string $url): bool
-    {
-        return $this->config->contains($url);
-    }
-
-    public function add(string $url): self
-    {
-        $this->config = $this->config->merge($url);
+        $this->config = $config;
 
         return $this;
     }
 
-    public function remove(?string $url): self
+    private function toConfigArray(): array
     {
-        $this->config = $this->config->diff($url);
-
-        return $this;
+        return $this->config->sort()->unique()->toArray();
     }
 
     public function save(): void
     {
         ConfigWriter::edit('statamic.static_caching')
-            ->replace('exclude', $this->getConfigArray())
+            ->replace('exclude', $this->toConfigArray())
             ->save();
     }
 }

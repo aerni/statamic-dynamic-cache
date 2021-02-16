@@ -3,9 +3,9 @@
 namespace Aerni\DynamicCache\Listeners;
 
 use Aerni\DynamicCache\Actions\SaveExcludeConfig;
-use Statamic\Events\EntryDeleted;
+use Statamic\Events\CollectionSaved;
 
-class EntryDeletedListener
+class CollectionSavedListener
 {
     private $saveExcludeConfig;
 
@@ -14,7 +14,7 @@ class EntryDeletedListener
         $this->saveExcludeConfig = $saveExcludeConfig;
     }
 
-    public function handle(EntryDeleted $event): void
+    public function handle(CollectionSaved $event): void
     {
         $this->saveExcludeConfig->execute();
     }
