@@ -10,18 +10,57 @@ use Statamic\Entries\Entry;
 
 class Data implements DataContract
 {
-    public function getExcludeConfig(): Collection
+    public function getExclude(): Collection
     {
-        return Entry::all()->map(function ($entry) {
-            if ($this->shouldAddEntryUrlToExcludeConfig($entry->data())) {
-                return $entry->url();
-            }
+        return $this->entriesToExcludeFromStaticCache()->map(function ($entry) {
+            return $entry->url();
         })
-        ->filter()
         ->sort();
     }
 
-    private function shouldAddEntryUrlToExcludeConfig(Collection $data): bool
+    public function getInvalidationRules(): Collection
+    {
+        $rules = $this->entriesToIncludeInInvalidationRules()->map(function ($entry) {
+            return [
+                'collection' => $entry->collectionHandle(),
+                'url' => $entry->url()
+            ];
+        })->groupBy('collection')->map(function ($entry) {
+            $urls = collect($entry)->map(function ($entry) {
+                return $entry['url'];
+            })
+            ->sort()
+            ->values()
+            ->all();
+
+            return ['urls' => $urls];
+        })
+        ->sortKeys();
+
+        return $rules->isEmpty() ? $rules : collect(['collections' => $rules->all()]);
+    }
+
+    private function entriesToExcludeFromStaticCache(): Collection
+    {
+        return Entry::all()->map(function ($entry) {
+            if ($this->shouldExcludeEntryFromStaticCache($entry->data())) {
+                return $entry;
+            }
+        })
+        ->filter();
+    }
+
+    private function entriesToIncludeInInvalidationRules(): Collection
+    {
+        return Entry::all()->map(function ($entry) {
+            if (! $this->shouldExcludeEntryFromStaticCache($entry->data())) {
+                return $entry;
+            }
+        })
+        ->filter();
+    }
+
+    private function shouldExcludeEntryFromStaticCache(Collection $data): bool
     {
         $excludeFromStaticCache = $this->recursiveSearch($data->toArray(), 'exclude_from_static_cache', true);
 

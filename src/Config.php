@@ -8,29 +8,48 @@ use Stillat\Proteus\Support\Facades\ConfigWriter;
 
 class Config implements ConfigContract
 {
-    private $config;
+    private $exclude;
+    private $invalidationRules;
 
-    public function get(): Collection
+    public function getExclude(): Collection
     {
-        return $this->config ?? collect(ConfigWriter::getConfigItem('statamic.static_caching.exclude'));
+        return $this->exclude ?? collect(ConfigWriter::getConfigItem('statamic.static_caching.exclude'));
     }
 
-    public function set(Collection $config): self
+    public function getInvalidationRules(): Collection
     {
-        $this->config = $config;
+        return $this->invalidationRules ?? collect(ConfigWriter::getConfigItem('statamic.static_caching.invalidation.rules'));
+    }
+
+    public function setExclude(Collection $config): self
+    {
+        $this->exclude = $config;
 
         return $this;
     }
 
-    private function toConfigArray(): array
+    public function setInvalidationRules(Collection $config): self
     {
-        return $this->config->sort()->unique()->toArray();
+        $this->invalidationRules = $config;
+
+        return $this;
+    }
+
+    private function toExcludeArray(): array
+    {
+        return $this->exclude->all();
+    }
+
+    private function toInvalidationRulesArray(): array
+    {
+        return $this->invalidationRules->all();
     }
 
     public function save(): void
     {
         ConfigWriter::edit('statamic.static_caching')
-            ->replace('exclude', $this->toConfigArray())
+            ->replace('exclude', $this->toExcludeArray())
+            ->replace('invalidation.rules', $this->toInvalidationRulesArray())
             ->save();
     }
 }

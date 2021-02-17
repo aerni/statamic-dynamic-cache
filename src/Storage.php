@@ -8,18 +8,33 @@ use Statamic\Facades\YAML;
 
 class Storage implements StorageContract
 {
-    public static function get(): array
+    public static function getExclude(): array
     {
-        return YAML::parse(File::get(Self::filepath()));
+        return YAML::parse(File::get(Self::excludePath()));
     }
 
-    public static function put(array $config): void
+    public static function getInvalidationRules(): array
     {
-        File::put(Self::filepath(), YAML::dump($config));
+        return YAML::parse(File::get(Self::invalidationRulesPath()));
     }
 
-    private static function filepath(): string
+    public static function putExclude(array $config): void
     {
-        return storage_path("statamic/addons/dynamic-cache/exclude_cache.yaml");
+        File::put(Self::excludePath(), YAML::dump($config));
+    }
+
+    public static function putInvalidationRules(array $config): void
+    {
+        File::put(Self::invalidationRulesPath(), YAML::dump($config));
+    }
+
+    private static function excludePath(): string
+    {
+        return storage_path('statamic/addons/dynamic-cache/exclude_cache.yaml');
+    }
+
+    private static function invalidationRulesPath(): string
+    {
+        return storage_path('statamic/addons/dynamic-cache/invalidation_rules_cache.yaml');
     }
 }

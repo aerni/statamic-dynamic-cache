@@ -2,20 +2,20 @@
 
 namespace Aerni\DynamicCache\Listeners;
 
-use Aerni\DynamicCache\Actions\SaveExcludeConfig;
+use Aerni\DynamicCache\Actions\saveStaticCachingConfig;
 use Statamic\Events\EntryDeleted;
 
 class EntryDeletedListener
 {
-    private $saveExcludeConfig;
+    private $saveStaticCachingConfig;
 
-    public function __construct(SaveExcludeConfig $saveExcludeConfig)
+    public function __construct(SaveStaticCachingConfig $saveStaticCachingConfig)
     {
-        $this->saveExcludeConfig = $saveExcludeConfig;
+        $this->saveStaticCachingConfig = $saveStaticCachingConfig;
     }
 
     public function handle(EntryDeleted $event): void
     {
-        $this->saveExcludeConfig->execute();
+        $this->saveStaticCachingConfig->execute();
     }
 }

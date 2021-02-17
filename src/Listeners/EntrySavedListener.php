@@ -2,20 +2,20 @@
 
 namespace Aerni\DynamicCache\Listeners;
 
-use Aerni\DynamicCache\Actions\SaveExcludeConfig;
+use Aerni\DynamicCache\Actions\SaveStaticCachingConfig;
 use Statamic\Events\EntrySaved;
 
 class EntrySavedListener
 {
-    private $saveExcludeConfig;
+    private $saveStaticCachingConfig;
 
-    public function __construct(SaveExcludeConfig $saveExcludeConfig)
+    public function __construct(SaveStaticCachingConfig $saveStaticCachingConfig)
     {
-        $this->saveExcludeConfig = $saveExcludeConfig;
+        $this->saveStaticCachingConfig = $saveStaticCachingConfig;
     }
 
     public function handle(EntrySaved $event): void
     {
-        $this->saveExcludeConfig->execute();
+        $this->saveStaticCachingConfig->execute();
     }
 }

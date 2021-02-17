@@ -6,5 +6,7 @@ use Illuminate\Support\Collection;
 
 interface Data
 {
-    public function getExcludeConfig(): Collection;
+    public function getExclude(): Collection;
+
+    public function getInvalidationRules(): Collection;
 }
