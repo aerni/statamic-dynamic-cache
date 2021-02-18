@@ -55,9 +55,6 @@ class SaveStaticCachingConfig implements Action
         $currentConfig = Config::getInvalidationRules()->toArray();
         $storedConfig = Storage::getInvalidationRules();
 
-        $sortedCurrentConfig = Helpers::sortRecursive($currentConfig);
-        $sortedStoredConfig = Helpers::sortRecursive($storedConfig);
-
-        return Helpers::diffAssocRecursive($sortedCurrentConfig, $sortedStoredConfig);
+        return Helpers::diffAssocRecursive($currentConfig, $storedConfig);
     }
 }
