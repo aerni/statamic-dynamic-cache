@@ -3,13 +3,13 @@ If you ever used Statamic's static caching with the `full` strategy, you know th
 
 Dynamic Cache is a lifesaver for sites with complex page builders based on Replicator and Bard. Your page builder might have dozens of components of which only one requires dynamic functionality. Without this addon, you'd have to do without full static caching, because you'd never know which page would include that one component that doesn't work when chached statically.
 
->**Note:** This addon currently only works with collection entries.
-
 ## Features
 - Adds your entries' URLs to the static caching `exclude` array
 - Populates the invalidation `rules` array
 - Updates the config whenever you save or delete an entry, or change the structure of a collection
 - Artisan Command to manually trigger a config update
+
+>**Note:** This addon currently only works with collection entries.
 
 ## Installation
 Install the addon using Composer.
