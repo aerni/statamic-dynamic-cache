@@ -6,6 +6,10 @@ use Statamic\Providers\AddonServiceProvider;
 
 class ServiceProvider extends AddonServiceProvider
 {
+    protected $commands = [
+        \Aerni\DynamicCache\Commands\Update::class,
+    ];
+
     protected $listen = [
         \Statamic\Events\CollectionSaved::class => [
             \Aerni\DynamicCache\Listeners\CollectionSavedListener::class,
