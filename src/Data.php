@@ -43,7 +43,7 @@ class Data implements DataContract
     private function entriesToExcludeFromStaticCache(): Collection
     {
         return Entry::all()->map(function ($entry) {
-            if ($this->shouldExcludeEntryFromStaticCache($entry->data())) {
+            if ($this->shouldExcludeEntryFromStaticCache($entry->values())) {
                 return $entry;
             }
         })
@@ -53,7 +53,7 @@ class Data implements DataContract
     private function entriesToIncludeInInvalidationRules(): Collection
     {
         return Entry::all()->map(function ($entry) {
-            if (! $this->shouldExcludeEntryFromStaticCache($entry->data())) {
+            if (! $this->shouldExcludeEntryFromStaticCache($entry->values())) {
                 return $entry;
             }
         })
