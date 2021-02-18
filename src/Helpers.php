@@ -3,9 +3,23 @@
 namespace Aerni\DynamicCache;
 
 use Illuminate\Support\Arr;
+use RecursiveArrayIterator;
+use RecursiveIteratorIterator;
 
 class Helpers
 {
+    public static function searchRecursive(array $haystack, $needleKey, $needleValue)
+    {
+        $iterator  = new RecursiveArrayIterator($haystack);
+        $recursive = new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::SELF_FIRST);
+
+        foreach ($recursive as $key => $value) {
+            if ($key === $needleKey && $value === $needleValue) {
+                return $value;
+            }
+        }
+    }
+
     public static function sortRecursive(array $array): array
     {
         return collect($array)->map(function ($item) {

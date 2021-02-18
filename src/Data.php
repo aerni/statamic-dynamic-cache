@@ -62,24 +62,12 @@ class Data implements DataContract
 
     private function shouldExcludeEntryFromStaticCache(Collection $data): bool
     {
-        $excludeFromStaticCache = $this->recursiveSearch($data->toArray(), 'exclude_from_static_cache', true);
+        $excludeFromStaticCache = Helpers::searchRecursive($data->toArray(), 'exclude_from_static_cache', true);
 
         if (! $excludeFromStaticCache) {
             return false;
         }
 
         return true;
-    }
-
-    private function recursiveSearch(array $haystack, $needleKey, $needleValue)
-    {
-        $iterator  = new RecursiveArrayIterator($haystack);
-        $recursive = new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::SELF_FIRST);
-
-        foreach ($recursive as $key => $value) {
-            if ($key === $needleKey && $value === $needleValue) {
-                return $value;
-            }
-        }
     }
 }
