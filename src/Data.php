@@ -62,7 +62,9 @@ class Data implements DataContract
 
     private function shouldExcludeEntryFromStaticCache(Collection $data): bool
     {
-        $excludeFromStaticCache = Helpers::searchRecursive($data->toArray(), 'exclude_from_static_cache', true);
+        $fieldHandle = config('dynamic-cache.handle', 'exclude_from_static_cache');
+
+        $excludeFromStaticCache = Helpers::searchRecursive($data->toArray(), $fieldHandle, true);
 
         if (! $excludeFromStaticCache) {
             return false;
