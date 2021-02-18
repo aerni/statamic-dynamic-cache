@@ -35,21 +35,16 @@ class Config implements ConfigContract
         return $this;
     }
 
-    private function toExcludeArray(): array
-    {
-        return $this->exclude->all();
-    }
-
-    private function toInvalidationRulesArray(): array
-    {
-        return $this->invalidationRules->all();
-    }
-
     public function save(): void
     {
+        $exclude = $this->exclude->all();
+        $invalidationRules = $this->invalidationRules
+            ? $this->invalidationRules->all()
+            : 'all';
+
         ConfigWriter::edit('statamic.static_caching')
-            ->replace('exclude', $this->toExcludeArray())
-            ->replace('invalidation.rules', $this->toInvalidationRulesArray())
+            ->replace('exclude', $exclude)
+            ->replace('invalidation.rules', $invalidationRules)
             ->save();
     }
 }

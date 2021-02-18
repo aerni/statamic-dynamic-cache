@@ -14,9 +14,13 @@ class SaveStaticCachingConfig implements Action
 {
     public function execute(): void
     {
-        Config::setExclude($this->newExclude())
-            ->setInvalidationRules($this->newInvalidationRules())
-            ->save();
+        $newConfig = Config::setExclude($this->newExclude());
+
+        if (! Config::getInvalidationRules()->contains('all')) {
+            $newConfig->setInvalidationRules($this->newInvalidationRules());
+        }
+
+        $newConfig->save();
 
         Storage::putExclude(Data::getExclude()->toArray());
         Storage::putInvalidationRules(Data::getInvalidationRules()->toArray());
