@@ -1,4 +1,6 @@
-# Dynamic Cache ![Statamic](https://flat.badgen.net/badge/Statamic/3.0+/FF269E)
+![Statamic](https://flat.badgen.net/badge/Statamic/3.0+/FF269E) ![Packagist version](https://flat.badgen.net/packagist/v/aerni/dynamic-cache/latest) ![Packagist Total Downloads](https://flat.badgen.net/packagist/dt/aerni/dynamic-cache) ![License](https://flat.badgen.net/github/license/aerni/statamic-dynamic-cache)
+
+# Dynamic Cache 
 If you ever used Statamic's static caching with the `full` strategy, you know that it doesn't play well with forms and dynamic listings like `sort="random"`. This is where Dynamic Cache steps in. It dynamically updates the `exclude` and invalidation `rules` array in your `static_caching.php` config based on a boolean in your entries' content.
 
 Dynamic Cache is a lifesaver for sites with complex page builders based on Replicator and Bard. Your page builder might have dozens of components and only one requiring dynamic functionality. Without this addon, you'd have to do without full static caching because you'd never know which page actually included that one component that doesn't work when cached statically.
