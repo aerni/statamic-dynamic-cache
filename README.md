@@ -1,12 +1,12 @@
 # Dynamic Cache ![Statamic](https://flat.badgen.net/badge/Statamic/3.0+/FF269E)
-If you ever used Statamic's static caching with the `full` strategy, you know that it doens't play well with forms and dynamic listings like `sort="random"`. This is where Dynamic Cache steps in. It dynamically updates the `exclude` and invaldation `rules` array in your `static_caching.php` config based on a boolean in your entries' content.
+If you ever used Statamic's static caching with the `full` strategy, you know that it doesn't play well with forms and dynamic listings like `sort="random"`. This is where Dynamic Cache steps in. It dynamically updates the `exclude` and invalidation `rules` array in your `static_caching.php` config based on a boolean in your entries' content.
 
-Dynamic Cache is a lifesaver for sites with complex page builders based on Replicator and Bard. Your page builder might have dozens of components of which only one requires dynamic functionality. Without this addon, you'd have to do without full static caching, because you'd never know which page would include that one component that doesn't work when chached statically.
+Dynamic Cache is a lifesaver for sites with complex page builders based on Replicator and Bard. Your page builder might have dozens of components, of which there is only one that requires dynamic functionality. Without this addon, you'd have to do without full static caching because you'd never know which page actually included that one component that doesn't work when cached statically.
 
 ## Features
 - Adds your entries' URLs to the static caching `exclude` array
 - Populates the invalidation `rules` array
-- Updates the config whenever you save or delete an entry, or change the structure of a collection
+- Updates the config whenever you save or delete an entry or change the structure of a collection
 - Artisan Command to manually trigger a config update
 
 >**Note:** This addon currently only works with collection entries.
@@ -45,12 +45,12 @@ return [
 ```
 
 ## Configuration
-You may change the handle of the field that is used to check if an entry should be excluded from the static cache. The handle defaults to `exclude_from_static_cache`.
+You may change the field's handle that is used to check if an entry should be excluded from the static cache. The handle defaults to `exclude_from_static_cache`.
 
 ## Basic Usage
 Dynamic Cache will look for `exclude_from_static_cache: true` in your entries. The best way to add this value to your content is by creating a Fieldset with a Hidden Fieldtype and adding it to your Blueprints where necessary.
 
-If you use a page builder, I suggest you add the Fieldset to every Replicator or Bard set that requires dynamic functionality. This way, the entry will only be excluded from the static cache if the component in question is present. If the component is not present, the entry will be cached statically.
+If you use a page builder, I suggest adding the Fieldset to every Replicator or Bard set that requires dynamic functionality. This way, the entry will only be excluded from the static cache if the component in question is present. If it is not, the entry will be cached statically.
 
 **Fieldset with Hidden Fieldtype:**
 ```yaml
@@ -67,7 +67,7 @@ fields:
       default: true
 ```
 
-Alternatively, you can also use a Toggle Fieldtype to manually turn the static cache on and off. Just note, that this kind of defeats the dynamic problem this addon is trying to solve …
+Alternatively, you can also use a Toggle Fieldtype to manually turn the static cache on and off. Just note that this kind of defeats the dynamic problem this addon is trying to solve …
 
 **Fieldset with Toggle Fieldtype:**
 ```yaml
@@ -94,4 +94,3 @@ You may update the config with the following command:
 php artisan dynamic-cache:update
 ```
 This is useful if you change your entries in your code editor rather than in the Control Panel.
-
