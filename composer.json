@@ -1,6 +1,6 @@
 {
     "name": "aerni/dynamic-cache",
-    "description": "Dynamically exclude URLs from the static cache",
+    "description": "Supercharge Statamic's static cache by dynamically excluding URLs that shouldn't be cached statically",
     "keywords": [
         "statamic",
         "static cache"
@@ -28,7 +28,7 @@
     "extra": {
         "statamic": {
             "name": "Dynamic Cache",
-            "description": "Dynamically exclude URLs from the static cache"
+            "description": "Supercharge Statamic's static cache by dynamically excluding URLs that shouldn't be cached statically"
         },
         "laravel": {
             "providers": [
