@@ -2,11 +2,11 @@
 
 namespace Aerni\DynamicCache;
 
-use Aerni\DynamicCache\Contracts\Data as DataContract;
-use Illuminate\Support\Collection;
 use RecursiveArrayIterator;
+use Statamic\Facades\Entry;
 use RecursiveIteratorIterator;
-use Statamic\Entries\Entry;
+use Illuminate\Support\Collection;
+use Aerni\DynamicCache\Contracts\Data as DataContract;
 
 class Data implements DataContract
 {
@@ -43,6 +43,10 @@ class Data implements DataContract
     private function entriesToExcludeFromStaticCache(): Collection
     {
         return Entry::all()->map(function ($entry) {
+            if (empty($entry->route())) {
+                return false;
+            }
+
             if ($this->shouldExcludeEntryFromStaticCache($entry->values())) {
                 return $entry;
             }
@@ -53,6 +57,10 @@ class Data implements DataContract
     private function entriesToIncludeInInvalidationRules(): Collection
     {
         return Entry::all()->map(function ($entry) {
+            if (empty($entry->route())) {
+                return false;
+            }
+
             if (! $this->shouldExcludeEntryFromStaticCache($entry->values())) {
                 return $entry;
             }
