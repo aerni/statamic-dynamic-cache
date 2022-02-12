@@ -96,3 +96,13 @@ You may update the config with the following command:
 php artisan dynamic-cache:update
 ```
 This is useful if you change your entries in your code editor rather than in the Control Panel.
+
+## Git Automation
+This addon supports Statamic's Git integration. Simply add the following paths to the `paths` array in your `git.php` config. Also, make sure that the addon's storage path is tracked by git.
+
+```php
+'paths' => [
+    config_path('statamic'),
+    storage_path('statamic/addons/dynamic-cache'),
+]
+```
