@@ -2,6 +2,7 @@
 
 namespace Aerni\DynamicCache;
 
+use Statamic\Facades\Git;
 use Statamic\Providers\AddonServiceProvider;
 
 class ServiceProvider extends AddonServiceProvider
@@ -21,4 +22,9 @@ class ServiceProvider extends AddonServiceProvider
             \Aerni\DynamicCache\Listeners\EntrySavedListener::class,
         ],
     ];
+
+    public function bootAddon()
+    {
+        Git::listen(\Aerni\DynamicCache\Events\DynamicCacheSaved::class);
+    }
 }

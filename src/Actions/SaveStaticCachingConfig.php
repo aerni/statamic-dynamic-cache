@@ -2,13 +2,13 @@
 
 namespace Aerni\DynamicCache\Actions;
 
-use Illuminate\Support\Arr;
 use Aerni\DynamicCache\Helpers;
 use Illuminate\Support\Collection;
 use Aerni\DynamicCache\Facades\Data;
 use Aerni\DynamicCache\Facades\Config;
 use Aerni\DynamicCache\Facades\Storage;
 use Aerni\DynamicCache\Contracts\Action;
+use Aerni\DynamicCache\Events\DynamicCacheSaved;
 
 class SaveStaticCachingConfig implements Action
 {
@@ -24,6 +24,8 @@ class SaveStaticCachingConfig implements Action
 
         Storage::putExclude(Data::getExclude()->toArray());
         Storage::putInvalidationRules(Data::getInvalidationRules()->toArray());
+
+        DynamicCacheSaved::dispatch($newConfig);
     }
 
     private function newExclude(): Collection
