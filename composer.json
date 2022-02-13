@@ -34,7 +34,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Aerni\\AdvancedSeo\\Tests\\": "tests"
+            "Aerni\\DynamicCache\\Tests\\": "tests"
         },
         "classmap": [
             "tests/TestCase.php"

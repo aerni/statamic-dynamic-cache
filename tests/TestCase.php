@@ -1,6 +1,6 @@
 <?php
 
-namespace Aerni\AdvancedSeo\Tests;
+namespace Aerni\DynamicCache\Tests;
 
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use Statamic\Extend\Manifest;

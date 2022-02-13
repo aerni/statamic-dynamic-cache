@@ -1,6 +1,6 @@
 <?php
 
-namespace Aerni\AdvancedSeo\Tests;
+namespace Aerni\DynamicCache\Tests;
 
 use Statamic\Facades\Path;
 use Statamic\Facades\Stache;
