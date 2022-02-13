@@ -2,9 +2,9 @@
 
 namespace Aerni\DynamicCache;
 
+use Aerni\DynamicCache\Contracts\Config as ConfigContract;
 use Illuminate\Support\Collection;
 use Stillat\Proteus\Support\Facades\ConfigWriter;
-use Aerni\DynamicCache\Contracts\Config as ConfigContract;
 
 class Config implements ConfigContract
 {

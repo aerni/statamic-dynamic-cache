@@ -2,13 +2,13 @@
 
 namespace Aerni\DynamicCache\Actions;
 
-use Aerni\DynamicCache\Helpers;
-use Illuminate\Support\Collection;
-use Aerni\DynamicCache\Facades\Data;
-use Aerni\DynamicCache\Facades\Config;
-use Aerni\DynamicCache\Facades\Storage;
 use Aerni\DynamicCache\Contracts\Action;
 use Aerni\DynamicCache\Events\DynamicCacheSaved;
+use Aerni\DynamicCache\Facades\Config;
+use Aerni\DynamicCache\Facades\Data;
+use Aerni\DynamicCache\Facades\Storage;
+use Aerni\DynamicCache\Helpers;
+use Illuminate\Support\Collection;
 
 class SaveStaticCachingConfig implements Action
 {

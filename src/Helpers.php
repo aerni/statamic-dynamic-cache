@@ -10,7 +10,7 @@ class Helpers
 {
     public static function searchRecursive(array $haystack, $needleKey, $needleValue)
     {
-        $iterator  = new RecursiveArrayIterator($haystack);
+        $iterator = new RecursiveArrayIterator($haystack);
         $recursive = new RecursiveIteratorIterator($iterator, RecursiveIteratorIterator::SELF_FIRST);
 
         foreach ($recursive as $key => $value) {
@@ -25,12 +25,14 @@ class Helpers
         return collect($array)->map(function ($item) {
             if (is_array($item) && Arr::isAssoc($item)) {
                 $sorted = collect($item)->sortKeys()->toArray();
-                return Self::sortRecursive($sorted);
+
+                return self::sortRecursive($sorted);
             }
 
             if (is_array($item) && ! Arr::isAssoc($item)) {
                 $sorted = collect($item)->sort()->values()->toArray();
-                return Self::sortRecursive($sorted);
+
+                return self::sortRecursive($sorted);
             }
 
             return $item;
@@ -48,7 +50,7 @@ class Helpers
                 } elseif (! is_array($array2[$key])) {
                     $difference[$key] = $value;
                 } else {
-                    $multidimensionalDiff = Self::diffAssocRecursive($value, $array2[$key]);
+                    $multidimensionalDiff = self::diffAssocRecursive($value, $array2[$key]);
                     if (count($multidimensionalDiff) > 0) {
                         $difference[$key] = $multidimensionalDiff;
                     }

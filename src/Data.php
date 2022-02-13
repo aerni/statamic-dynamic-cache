@@ -2,11 +2,9 @@
 
 namespace Aerni\DynamicCache;
 
-use RecursiveArrayIterator;
-use Statamic\Facades\Entry;
-use RecursiveIteratorIterator;
-use Illuminate\Support\Collection;
 use Aerni\DynamicCache\Contracts\Data as DataContract;
+use Illuminate\Support\Collection;
+use Statamic\Facades\Entry;
 
 class Data implements DataContract
 {
@@ -23,7 +21,7 @@ class Data implements DataContract
         $rules = $this->entriesToIncludeInInvalidationRules()->map(function ($entry) {
             return [
                 'collection' => $entry->collectionHandle(),
-                'url' => $entry->url()
+                'url' => $entry->url(),
             ];
         })->groupBy('collection')->map(function ($entry) {
             $urls = collect($entry)->map(function ($entry) {

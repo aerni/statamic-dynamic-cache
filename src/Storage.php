@@ -10,22 +10,22 @@ class Storage implements StorageContract
 {
     public static function getExclude(): array
     {
-        return YAML::parse(File::get(Self::excludePath()));
+        return YAML::parse(File::get(self::excludePath()));
     }
 
     public static function getInvalidationRules(): array
     {
-        return YAML::parse(File::get(Self::invalidationRulesPath()));
+        return YAML::parse(File::get(self::invalidationRulesPath()));
     }
 
     public static function putExclude(array $config): void
     {
-        File::put(Self::excludePath(), YAML::dump($config));
+        File::put(self::excludePath(), YAML::dump($config));
     }
 
     public static function putInvalidationRules(array $config): void
     {
-        File::put(Self::invalidationRulesPath(), YAML::dump($config));
+        File::put(self::invalidationRulesPath(), YAML::dump($config));
     }
 
     private static function excludePath(): string

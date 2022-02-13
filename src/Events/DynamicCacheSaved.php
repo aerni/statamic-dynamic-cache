@@ -2,9 +2,9 @@
 
 namespace Aerni\DynamicCache\Events;
 
-use Statamic\Events\Event;
 use Aerni\DynamicCache\Config;
 use Statamic\Contracts\Git\ProvidesCommitMessage;
+use Statamic\Events\Event;
 
 class DynamicCacheSaved extends Event implements ProvidesCommitMessage
 {
