@@ -25,6 +25,8 @@ class ServiceProvider extends AddonServiceProvider
 
     public function bootAddon()
     {
-        Git::listen(\Aerni\DynamicCache\Events\DynamicCacheSaved::class);
+        if (config('statamic.git.enabled')) {
+            Git::listen(\Aerni\DynamicCache\Events\DynamicCacheSaved::class);
+        }
     }
 }
