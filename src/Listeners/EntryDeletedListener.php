@@ -2,7 +2,7 @@
 
 namespace Aerni\DynamicCache\Listeners;
 
-use Aerni\DynamicCache\Actions\saveStaticCachingConfig;
+use Aerni\DynamicCache\Actions\SaveStaticCachingConfig;
 use Statamic\Events\EntryDeleted;
 
 class EntryDeletedListener
