@@ -1,3 +1,7 @@
+---
+### This addon has been archived in favor of the long-awaited [nocache tag](https://statamic.dev/tags/nocache), which was introduced in [Statamic v3.3.20](https://github.com/statamic/cms/releases/tag/v3.3.20).
+---
+
 ![Statamic](https://flat.badgen.net/badge/Statamic/3.0+/FF269E) ![Packagist version](https://flat.badgen.net/packagist/v/aerni/dynamic-cache/latest) ![Packagist Total Downloads](https://flat.badgen.net/packagist/dt/aerni/dynamic-cache) ![License](https://flat.badgen.net/github/license/aerni/statamic-dynamic-cache)
 
 # Dynamic Cache 
